@@ -1,10 +1,5 @@
-import {
-  ImageBackground,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { router } from "expo-router";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   return (
@@ -35,7 +30,10 @@ export default function Index() {
       </ImageBackground>
 
       {/* Botão para criar lista */}
-      <TouchableOpacity className="bg-orange-400 px-6 py-3 rounded-lg mb-10">
+      <TouchableOpacity
+        className="bg-orange-400 px-6 py-3 rounded-lg mb-10"
+        onPress={() => router.push("./lists")}
+      >
         <Text className="text-white font-bold text-lg">Criar Lista</Text>
       </TouchableOpacity>
     </View>
