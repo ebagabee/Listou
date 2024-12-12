@@ -11,13 +11,18 @@ const redirectToNewList = () => {
 export default function Lists() {
   return (
     <View className="flex-col bg-white">
-      <Header showIcon={true} />
+      <Header default editable={false} />
 
       {/* TODO: Flatlists */}
 
-      <TouchableOpacity className="p-6" onPress={redirectToNewList}>
-        <Feather name="plus" size={20} className="text-center" />
-      </TouchableOpacity>
+      <View className="px-10">
+        <TouchableOpacity
+          className="p-6 bg-orange-500 mt-10"
+          onPress={redirectToNewList}
+        >
+          <Feather name="plus" size={20} className="text-center" color="#FFF" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
