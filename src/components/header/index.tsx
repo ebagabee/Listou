@@ -16,15 +16,8 @@ export default function Header({ ...props }: headerProps) {
   return (
     <View className="w-full h-26 flex-row justify-between items-center px-2">
       {props.default && (
-        <View className="flex-row justify-between items-center w-full">
-          <Image
-            source={require("../../assets/cart-icon.png")}
-            className="w-16 h-16"
-          />
-
-          <Text className="font-bold text-2xl mr-4">Listou</Text>
-
-          <Ionicons name="menu" size={40} />
+        <View className="flex-row justify-center items-center w-full">
+          <Text className="font-bold text-2xl mr-4 tracking-[4px]">Listou</Text>
         </View>
       )}
 
