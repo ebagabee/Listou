@@ -26,6 +26,20 @@ export function useListDatabase() {
     }
   }
 
+  async function findById(id: string): Promise<ListDatabase | null> {
+    const query = "SELECT * FROM lists WHERE id = $id";
+
+    const result = await database.getFirstAsync<ListDatabase>(query, {
+      $id: id,
+    });
+
+    if (!result) {
+      return null;
+    }
+
+    return result;
+  }
+
   async function findAll() {
     try {
       const query = "SELECT * FROM lists";
@@ -67,5 +81,5 @@ export function useListDatabase() {
     }
   }
 
-  return { create, findAll, update, remove };
+  return { create, findAll, update, remove, findById };
 }
