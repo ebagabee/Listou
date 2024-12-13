@@ -53,5 +53,19 @@ export function useListDatabase() {
     }
   }
 
-  return { create, findAll, update };
+  async function remove(id: string) {
+    const statement = await database.prepareAsync(
+      "DELETE FROM lists WHERE id = $id"
+    );
+
+    try {
+      await statement.executeAsync({
+        $id: id,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return { create, findAll, update, remove };
 }
