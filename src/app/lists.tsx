@@ -99,7 +99,15 @@ export default function Lists() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View className="px-10 mt-4">
-            <TouchableOpacity className="py-6 bg-slate-200 mt-2 rounded-2xl">
+            <TouchableOpacity
+              className="py-6 bg-slate-200 mt-2 rounded-2xl"
+              onPress={() =>
+                router.push({
+                  pathname: "/list",
+                  params: { listId: item.id },
+                })
+              }
+            >
               <View className="flex-col justify-between items-center px-4 gap-2">
                 <View className="w-full flex-row justify-between">
                   <Text className="font-medium text-2xl">{item.name}</Text>
