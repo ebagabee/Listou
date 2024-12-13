@@ -26,5 +26,32 @@ export function useListDatabase() {
     }
   }
 
-  return { create };
+  async function findAll() {
+    try {
+      const query = "SELECT * FROM lists";
+
+      const response = await database.getAllAsync(query);
+
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function update(id: string, data: { name: string }) {
+    const statement = await database.prepareAsync(
+      "UPDATE lists SET name = $name WHERE id = $id"
+    );
+
+    try {
+      await statement.executeAsync({
+        $id: id,
+        $name: data.name,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return { create, findAll, update };
 }
