@@ -6,6 +6,7 @@ interface headerProps {
   default: boolean;
   title?: string;
   editable: boolean;
+  onEditTitle?: (newTitle: string) => void;
 }
 
 const redirectToListScreen = () => {
