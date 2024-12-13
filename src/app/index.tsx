@@ -1,5 +1,11 @@
 import { router } from "expo-router";
-import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 
 export default function Index() {
   return (
@@ -26,7 +32,10 @@ export default function Index() {
         className="w-full h-2/3 flex-row items-center justify-center bg-center rounded-lg overflow-hidden mt-5"
       >
         {/* Quadrado cinza opaco */}
-        <View className="w-2/3 h-2/4 bg-slate-700 opacity-80 rounded-lg flex items-center justify-center"></View>
+        <Image
+          source={require("../assets/hero.png")}
+          className="w-full h-full mb-10"
+        />
       </ImageBackground>
 
       {/* Botão para criar lista */}
