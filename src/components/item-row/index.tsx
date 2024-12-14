@@ -23,8 +23,8 @@ export default function ItemRow({ item, onUpdate }: ItemRowProps) {
   };
 
   return (
-    <View className="flex-row items-center mb-2 shadow-black">
-      <View className="mr-2">
+    <View className="flex-row items-center mb-2 p-4 border border-gray-200">
+      <View>
         <BouncyCheckbox
           isChecked={item.in_cart === 1}
           onPress={(checked) => handleUpdate({ in_cart: checked ? 1 : 0 })}
@@ -35,7 +35,7 @@ export default function ItemRow({ item, onUpdate }: ItemRowProps) {
       </View>
 
       <TextInput
-        className="flex-1 rounded-md p-2 bg-white mr-2"
+        className="flex-1 rounded-md p-2 bg-white -ml-2 text-xl"
         value={item.name}
         onChangeText={(text) => handleUpdate({ name: text })}
       />
