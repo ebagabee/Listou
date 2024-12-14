@@ -9,6 +9,7 @@ import {
   useItemListDatabase,
 } from "../database/useItemListDatabase";
 import ItemRow from "../components/item-row";
+import ExpandableItem from "../components/expandable-item";
 
 export default function NewListScreen() {
   const { listId } = useLocalSearchParams();
@@ -80,9 +81,21 @@ export default function NewListScreen() {
       />
 
       <ScrollView className="flex-1 p-4 mt-6">
-        {items.map((item) => (
-          <ItemRow key={item.id} item={item} onUpdate={loadItems} />
-        ))}
+        <ExpandableItem title="Para Comprar">
+          {items
+            .filter((item) => item.in_cart === 0)
+            .map((item) => (
+              <ItemRow key={item.id} item={item} onUpdate={loadItems} />
+            ))}
+        </ExpandableItem>
+
+        <ExpandableItem title="No Carrinho">
+          {items
+            .filter((item) => item.in_cart === 1)
+            .map((item) => (
+              <ItemRow key={item.id} item={item} onUpdate={loadItems} />
+            ))}
+        </ExpandableItem>
       </ScrollView>
 
       <FloatButton onPress={handleAddItem} />
