@@ -3,10 +3,10 @@ import { useSQLiteContext } from "expo-sqlite";
 export type ItemListDatabase = {
   id: number;
   name: string;
-  priceUnit: number;
-  inCart: number;
+  price_unit: number; // Note o underscore aqui
+  in_cart: number; // Note o underscore aqui
   quantity: number;
-  idList: number;
+  id_list: number; // Note o underscore aqui
 };
 
 export function useItemListDatabase() {
@@ -19,10 +19,10 @@ export function useItemListDatabase() {
 
     await statement.executeAsync([
       item.name,
-      item.priceUnit,
-      item.inCart,
+      item.price_unit,
+      item.in_cart,
       item.quantity,
-      item.idList,
+      item.id_list,
     ]);
   }
 
@@ -36,21 +36,16 @@ export function useItemListDatabase() {
   }
 
   async function update(id: number, item: Partial<ItemListDatabase>) {
-    const updates = Object.entries(item)
-      .map(([key, _]) => {
-        const column = key.replace(
-          /[A-Z]/g,
-          (letter) => `_${letter.toLowerCase()}`
-        );
-        return `${column} = ?`;
-      })
-      .join(", ");
+    const fields = Object.keys(item);
+    const values = Object.values(item);
+
+    const updates = fields.map((field) => `${field} = ?`).join(", ");
 
     const statement = await database.prepareAsync(
       `UPDATE items SET ${updates} WHERE id = ?`
     );
 
-    await statement.executeAsync([...Object.values(item), id]);
+    await statement.executeAsync([...values, id]);
   }
 
   return { create, findByListId, update };

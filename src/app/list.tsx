@@ -1,14 +1,22 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import Header from "../components/header";
 import FloatButton from "../components/float-button";
 import { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useListDatabase } from "../database/useListDatabase";
+import {
+  ItemListDatabase,
+  useItemListDatabase,
+} from "../database/useItemListDatabase";
+import ItemRow from "../components/item-row";
 
 export default function NewListScreen() {
   const { listId } = useLocalSearchParams();
   const [listName, setListName] = useState("");
   const { findById, update } = useListDatabase();
+  const { create, findByListId } = useItemListDatabase();
+
+  const [items, setItems] = useState<ItemListDatabase[]>([]);
 
   // Datas about the product
   const [id, setId] = useState();
@@ -22,6 +30,7 @@ export default function NewListScreen() {
 
   useEffect(() => {
     loadList();
+    loadItems();
   }, [listId]);
 
   const loadList = async () => {
@@ -33,6 +42,32 @@ export default function NewListScreen() {
       }
     } catch (error) {
       console.error("Erro ao carregar lista", error);
+    }
+  };
+
+  const loadItems = async () => {
+    try {
+      const loadedItems = await findByListId(listId.toString());
+      setItems(loadedItems);
+    } catch (error) {
+      console.error("Erro ao carregar itens");
+    }
+  };
+
+  const handleAddItem = async () => {
+    try {
+      const newItem = {
+        name: "Novo Item",
+        price_unit: 0,
+        in_cart: 0,
+        quantity: 1,
+        id_list: Number(listId),
+      };
+
+      await create(newItem);
+      await loadItems();
+    } catch (error) {
+      console.error("Erro ao adicionar item", error);
     }
   };
 
@@ -53,8 +88,14 @@ export default function NewListScreen() {
         default={false}
         onEditTitle={handleEditTitle}
       />
-      
-      <FloatButton />
+
+      <ScrollView className="flex-1 p-4">
+        {items.map((item) => (
+          <ItemRow key={item.id} item={item} onUpdate={loadItems} />
+        ))}
+      </ScrollView>
+
+      <FloatButton onPress={handleAddItem} />
     </View>
   );
 }
