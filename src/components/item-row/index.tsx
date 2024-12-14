@@ -1,8 +1,9 @@
-import { View, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput } from "react-native";
 import {
   useItemListDatabase,
   ItemListDatabase,
 } from "../../database/useItemListDatabase";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 type ItemRowProps = {
   item: ItemListDatabase;
@@ -22,24 +23,25 @@ export default function ItemRow({ item, onUpdate }: ItemRowProps) {
   };
 
   return (
-    <View className="flex-row items-center space-x-2 mb-2">
-      <TouchableOpacity
-        onPress={() => handleUpdate({ in_cart: item.in_cart ? 0 : 1 })}
-        className="w-6 h-6 border border-gray-300 rounded-md items-center justify-center"
-      >
-        {item.in_cart ? (
-          <View className="w-4 h-4 bg-blue-500 rounded-sm" />
-        ) : null}
-      </TouchableOpacity>
+    <View className="flex-row items-center mb-2 shadow-black">
+      <View className="mr-2">
+        <BouncyCheckbox
+          isChecked={item.in_cart === 1}
+          onPress={(checked) => handleUpdate({ in_cart: checked ? 1 : 0 })}
+          fillColor="#f97316"
+          iconStyle={{ borderColor: "#f97316" }}
+          size={20}
+        />
+      </View>
 
       <TextInput
-        className="flex-1 border border-gray-300 rounded-md p-2"
+        className="flex-1 rounded-md p-2 bg-white mr-2"
         value={item.name}
         onChangeText={(text) => handleUpdate({ name: text })}
       />
 
       <TextInput
-        className="w-24 border border-gray-300 rounded-md p-2"
+        className="w-24 border border-slate-400 rounded-md p-2 bg-white mr-2"
         value={item.price_unit.toString()}
         keyboardType="numeric"
         onChangeText={(text) =>
@@ -48,7 +50,7 @@ export default function ItemRow({ item, onUpdate }: ItemRowProps) {
       />
 
       <TextInput
-        className="w-16 border border-gray-300 rounded-md p-2"
+        className="w-16 border border-slate-400 rounded-md p-2 bg-white"
         value={item.quantity.toString()}
         keyboardType="numeric"
         onChangeText={(text) => handleUpdate({ quantity: parseInt(text) || 1 })}

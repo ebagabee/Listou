@@ -18,16 +18,6 @@ export default function NewListScreen() {
 
   const [items, setItems] = useState<ItemListDatabase[]>([]);
 
-  // Datas about the product
-  const [id, setId] = useState();
-  const [nameItem, setNameItem] = useState();
-  const [priceItem, setPriceItem] = useState();
-  const [quantityItem, setQuantityItem] = useState();
-  const [inCart, setInCart] = useState(false);
-
-  // Actions
-  const [showOptions, setShowOptions] = useState();
-
   useEffect(() => {
     loadList();
     loadItems();
@@ -89,7 +79,7 @@ export default function NewListScreen() {
         onEditTitle={handleEditTitle}
       />
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView className="flex-1 p-4 mt-6">
         {items.map((item) => (
           <ItemRow key={item.id} item={item} onUpdate={loadItems} />
         ))}
