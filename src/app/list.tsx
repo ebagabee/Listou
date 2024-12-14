@@ -53,7 +53,7 @@ export default function NewListScreen() {
         default={false}
         onEditTitle={handleEditTitle}
       />
-      <Text>Lista ID: {listId}</Text>
+      
       <FloatButton />
     </View>
   );
