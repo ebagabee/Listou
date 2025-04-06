@@ -1,9 +1,8 @@
 import { View, TextInput } from "react-native";
-import {
-  useItemListDatabase,
-  ItemListDatabase,
-} from "../../database/useItemListDatabase";
+import { useItemListDatabase, ItemListDatabase } from "../../database/useItemListDatabase";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { debounce } from "lodash";
+import { useState } from "react";
 
 type ItemRowProps = {
   item: ItemListDatabase;
@@ -12,14 +11,20 @@ type ItemRowProps = {
 
 export default function ItemRow({ item, onUpdate }: ItemRowProps) {
   const { update } = useItemListDatabase();
+  const [localName, setLocalName] = useState(item.name);
+  const [localPrice, setLocalPrice] = useState(item.price_unit.toString());
 
-  const handleUpdate = async (changes: Partial<ItemListDatabase>) => {
+  const debouncedUpdate = debounce(async (changes: Partial<ItemListDatabase>) => {
     try {
       await update(item.id, changes);
       onUpdate();
     } catch (error) {
       console.error("Erro ao atualizar item", error);
     }
+  }, 500);
+
+  const handleUpdate = (changes: Partial<ItemListDatabase>) => {
+    debouncedUpdate(changes);
   };
 
   return (
@@ -36,17 +41,17 @@ export default function ItemRow({ item, onUpdate }: ItemRowProps) {
 
       <TextInput
         className="flex-1 rounded-md p-2 bg-white -ml-2 text-xl"
-        value={item.name}
-        onChangeText={(text) => handleUpdate({ name: text })}
+        value={localName}
+        onChangeText={setLocalName}
+        onBlur={() => handleUpdate({ name: localName })}
       />
 
       <TextInput
         className="w-24 border border-slate-400 rounded-md p-2 bg-white mr-2"
-        value={item.price_unit.toString()}
+        value={localPrice}
         keyboardType="numeric"
-        onChangeText={(text) =>
-          handleUpdate({ price_unit: parseFloat(text) || 0 })
-        }
+        onChangeText={setLocalPrice}
+        onBlur={() => handleUpdate({ price_unit: parseFloat(localPrice) || 0 })}
       />
 
       <TextInput
