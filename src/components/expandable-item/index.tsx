@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { memo, ReactNode, useState } from "react";
 import { LayoutAnimation, Pressable, View, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
@@ -7,7 +7,7 @@ export type ExpandableItemProps = {
   children?: ReactNode;
 };
 
-export default function ExpandableItem({
+function ExpandableItem({
   title,
   children,
 }: ExpandableItemProps) {
@@ -36,3 +36,5 @@ export default function ExpandableItem({
     </View>
   );
 }
+
+export default memo(ExpandableItem);

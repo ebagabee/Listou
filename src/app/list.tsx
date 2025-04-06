@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, FlatList } from "react-native";
 import Header from "../components/header";
 import FloatButton from "../components/float-button";
 import { useEffect, useState } from "react";
@@ -80,23 +80,28 @@ export default function NewListScreen() {
         onEditTitle={handleEditTitle}
       />
 
-      <ScrollView className="flex-1 p-4 mt-6">
-        <ExpandableItem title="Para Comprar">
-          {items
-            .filter((item) => item.in_cart === 0)
-            .map((item) => (
-              <ItemRow key={item.id} item={item} onUpdate={loadItems} />
+      <FlatList
+        data={[
+          {
+            key: "toBuy",
+            title: "Para Comprar",
+            items: items.filter((item) => item.in_cart === 0),
+          },
+          {
+            key: "inCart",
+            title: "No Carrinho",
+            items: items.filter((item) => item.in_cart === 1),
+          },
+        ]}
+        renderItem={({ item }) => (
+          <ExpandableItem title={item.title}>
+            {item.items.map((listItem) => (
+              <ItemRow key={listItem.id} item={listItem} onUpdate={loadItems} />
             ))}
-        </ExpandableItem>
-
-        <ExpandableItem title="No Carrinho">
-          {items
-            .filter((item) => item.in_cart === 1)
-            .map((item) => (
-              <ItemRow key={item.id} item={item} onUpdate={loadItems} />
-            ))}
-        </ExpandableItem>
-      </ScrollView>
+          </ExpandableItem>
+        )}
+        keyExtractor={(item) => item.key}
+      />
 
       <FloatButton onPress={handleAddItem} />
     </View>

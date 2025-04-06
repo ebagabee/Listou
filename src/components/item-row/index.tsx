@@ -2,14 +2,14 @@ import { View, TextInput } from "react-native";
 import { useItemListDatabase, ItemListDatabase } from "../../database/useItemListDatabase";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { debounce } from "lodash";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 type ItemRowProps = {
   item: ItemListDatabase;
   onUpdate: () => void;
 };
 
-export default function ItemRow({ item, onUpdate }: ItemRowProps) {
+function ItemRow({ item, onUpdate }: ItemRowProps) {
   const { update } = useItemListDatabase();
   const [localName, setLocalName] = useState(item.name);
   const [localPrice, setLocalPrice] = useState(item.price_unit.toString());
@@ -63,3 +63,5 @@ export default function ItemRow({ item, onUpdate }: ItemRowProps) {
     </View>
   );
 }
+
+export default memo(ItemRow);
