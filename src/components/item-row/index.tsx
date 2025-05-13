@@ -1,5 +1,8 @@
 import { View, TextInput } from "react-native";
-import { useItemListDatabase, ItemListDatabase } from "../../database/useItemListDatabase";
+import {
+  useItemListDatabase,
+  ItemListDatabase,
+} from "../../database/useItemListDatabase";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { debounce } from "lodash";
 import { memo, useState } from "react";
@@ -14,14 +17,17 @@ function ItemRow({ item, onUpdate }: ItemRowProps) {
   const [localName, setLocalName] = useState(item.name);
   const [localPrice, setLocalPrice] = useState(item.price_unit.toString());
 
-  const debouncedUpdate = debounce(async (changes: Partial<ItemListDatabase>) => {
-    try {
-      await update(item.id, changes);
-      onUpdate();
-    } catch (error) {
-      console.error("Erro ao atualizar item", error);
-    }
-  }, 500);
+  const debouncedUpdate = debounce(
+    async (changes: Partial<ItemListDatabase>) => {
+      try {
+        await update(item.id, changes);
+        onUpdate();
+      } catch (error) {
+        console.error("Erro ao atualizar item", error);
+      }
+    },
+    500
+  );
 
   const handleUpdate = (changes: Partial<ItemListDatabase>) => {
     debouncedUpdate(changes);
@@ -35,27 +41,19 @@ function ItemRow({ item, onUpdate }: ItemRowProps) {
           onPress={(checked) => handleUpdate({ in_cart: checked ? 1 : 0 })}
           fillColor="#f97316"
           iconStyle={{ borderColor: "#f97316" }}
-          size={20}
+          size={25}
         />
       </View>
 
       <TextInput
-        className="flex-1 rounded-md p-2 bg-white -ml-2 text-xl"
+        className="flex-1 rounded-md p-2 bg-white -ml-2 text-xl font-bold"
         value={localName}
         onChangeText={setLocalName}
         onBlur={() => handleUpdate({ name: localName })}
       />
 
       <TextInput
-        className="w-24 border border-slate-400 rounded-md p-2 bg-white mr-2"
-        value={localPrice}
-        keyboardType="numeric"
-        onChangeText={setLocalPrice}
-        onBlur={() => handleUpdate({ price_unit: parseFloat(localPrice) || 0 })}
-      />
-
-      <TextInput
-        className="w-16 border border-slate-400 rounded-md p-2 bg-white"
+        className="w-20 border border-slate-400 rounded-md p-2 text-center font-bold"
         value={item.quantity.toString()}
         keyboardType="numeric"
         onChangeText={(text) => handleUpdate({ quantity: parseInt(text) || 1 })}

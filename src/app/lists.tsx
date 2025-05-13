@@ -117,10 +117,6 @@ export default function Lists() {
                     <Feather name="trash-2" size={28} color="#000" />
                   </Pressable>
                 </View>
-
-                <View className="w-full">
-                  <Text>Item 1, Item 2, Item 3...</Text>
-                </View>
               </View>
             </TouchableOpacity>
           </View>

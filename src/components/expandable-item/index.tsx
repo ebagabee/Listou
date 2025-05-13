@@ -11,7 +11,7 @@ function ExpandableItem({
   title,
   children,
 }: ExpandableItemProps) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -19,7 +19,7 @@ function ExpandableItem({
   };
 
   return (
-    <View className="bg-white rounded-lg mb-2">
+    <View className="rounded-lg mb-2">
       <Pressable
         onPress={toggleExpand}
         className="flex-row items-center p-4 bg-gray-50 rounded-lg"
