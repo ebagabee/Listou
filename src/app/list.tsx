@@ -72,7 +72,7 @@ export default function NewListScreen() {
   };
 
   return (
-    <View className="h-full w-full">
+    <View className="h-full w-full bg-gray-50">
       <Header
         title={listName}
         editable

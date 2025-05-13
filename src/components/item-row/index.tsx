@@ -46,7 +46,7 @@ function ItemRow({ item, onUpdate }: ItemRowProps) {
       </View>
 
       <TextInput
-        className="flex-1 rounded-md p-2 bg-white -ml-2 text-xl font-bold"
+        className="flex-1 rounded-md p-2 -ml-2 text-xl font-bold"
         value={localName}
         onChangeText={setLocalName}
         onBlur={() => handleUpdate({ name: localName })}
@@ -56,7 +56,14 @@ function ItemRow({ item, onUpdate }: ItemRowProps) {
         className="w-20 border border-slate-400 rounded-md p-2 text-center font-bold"
         value={item.quantity.toString()}
         keyboardType="numeric"
-        onChangeText={(text) => handleUpdate({ quantity: parseInt(text) || 1 })}
+        onChangeText={(text) => {
+          if (text.trim() !== "") {
+            const parsedValue = parseInt(text);
+            if (!isNaN(parsedValue) && parsedValue > 0) {
+              handleUpdate({ quantity: parsedValue });
+            }
+          }
+        }}
       />
     </View>
   );
