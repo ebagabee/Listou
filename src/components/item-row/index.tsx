@@ -15,7 +15,6 @@ type ItemRowProps = {
 function ItemRow({ item, onUpdate }: ItemRowProps) {
   const { update } = useItemListDatabase();
   const [localName, setLocalName] = useState(item.name);
-  const [localPrice, setLocalPrice] = useState(item.price_unit.toString());
 
   const debouncedUpdate = debounce(
     async (changes: Partial<ItemListDatabase>) => {
@@ -53,17 +52,10 @@ function ItemRow({ item, onUpdate }: ItemRowProps) {
       />
 
       <TextInput
-        className="w-20 border border-slate-400 rounded-md p-2 text-center font-bold"
+        className="w-20 border border-slate-400 rounded-md p-2 text-center text-orange-500 font-bold bg-white"
         value={item.quantity.toString()}
         keyboardType="numeric"
-        onChangeText={(text) => {
-          if (text.trim() !== "") {
-            const parsedValue = parseInt(text);
-            if (!isNaN(parsedValue) && parsedValue > 0) {
-              handleUpdate({ quantity: parsedValue });
-            }
-          }
-        }}
+        editable={false}
       />
     </View>
   );

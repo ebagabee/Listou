@@ -10,7 +10,6 @@ export async function initializeDatabase(database: SQLiteDatabase) {
         CREATE TABLE IF NOT EXISTS items (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            price_unit REAL,
             in_cart INTEGER NOT NULL,
             quantity INTEGER NOT NULL,
             id_list INTEGER NOT NULL,

@@ -3,10 +3,9 @@ import { useSQLiteContext } from "expo-sqlite";
 export type ItemListDatabase = {
   id: number;
   name: string;
-  price_unit: number; // Note o underscore aqui
-  in_cart: number; // Note o underscore aqui
+  in_cart: number;
   quantity: number;
-  id_list: number; // Note o underscore aqui
+  id_list: number;
 };
 
 export function useItemListDatabase() {
@@ -14,12 +13,11 @@ export function useItemListDatabase() {
 
   async function create(item: Omit<ItemListDatabase, "id">) {
     const statement = await database.prepareAsync(
-      "INSERT INTO items (name, price_unit, in_cart, quantity, id_list) VALUES (?, ?, ?, ?, ?)"
+      "INSERT INTO items (name, in_cart, quantity, id_list) VALUES (?, ?, ?, ?)"
     );
 
     await statement.executeAsync([
       item.name,
-      item.price_unit,
       item.in_cart,
       item.quantity,
       item.id_list,
